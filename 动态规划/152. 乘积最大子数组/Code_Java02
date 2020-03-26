@@ -1,0 +1,14 @@
+public static int maxProduct(int[] nums) {
+        int max = Integer.MIN_VALUE, nowMax = 1, nowMin = 1;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] < 0){
+                int tmp = nowMax;
+                nowMax = nowMin;
+                nowMin = tmp;
+            }
+            nowMax = Math.max(nowMax*nums[i], nums[i]);
+            nowMin = Math.min(nowMin*nums[i], nums[i]);
+            max = Math.max(nowMax, max);
+        }
+        return max;
+        }
