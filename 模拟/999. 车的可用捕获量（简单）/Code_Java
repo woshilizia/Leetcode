@@ -1,0 +1,32 @@
+public static int numRookCaptures(char[][] board) {
+        int res = 0;
+        int x=-1, y=-1;
+        int[] dx = new int[]{1,-1,0,0};
+        int[] dy = new int[]{0,0,1,-1};
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == 'R'){
+                    x = i;
+                    y = j;
+                    break;
+                }
+            }
+        }
+        //代码不够精致呀
+        for (int i = 0; i < 4; i++) {
+            int nx = dx[i]+x;
+            int ny = dy[i]+y;
+            while (nx >= 0 && nx < board.length && ny >= 0 && ny < board[0].length){
+                if (board[nx][ny] == '.'){
+                    nx += dx[i];
+                    ny += dy[i];
+                }
+                else {
+                    if (board[nx][ny] == 'p')
+                        res++;
+                    break;
+                }
+            }
+        }
+        return res;
+    }
