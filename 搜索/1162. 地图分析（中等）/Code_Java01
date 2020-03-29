@@ -1,0 +1,40 @@
+public static int maxDistance(int[][] grid) {
+        int ans = -1;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 0)
+                    ans = Math.max(ans, bfs(grid, i, j));
+            }
+        }
+        return ans;
+    }
+    public static int bfs(int[][] grid, int x, int y){
+        int[] dx = new int[]{1,-1,0,0};
+        int[] dy = new int[]{0,0,1,-1};
+        class Coordinate{
+            int x, y ,step;
+            Coordinate(int x, int y, int step){
+                this.x = x;this.y=y;this.step=step;
+            }
+        }
+        boolean[][] vis = new boolean[grid.length][grid[0].length];
+        for (boolean[] tmp : vis)
+            Arrays.fill(tmp, false);
+        vis[x][y] = true;
+        Queue<Coordinate>queue = new LinkedList<>();
+        queue.add(new Coordinate(x, y, 0));
+        while (!queue.isEmpty()){
+            Coordinate now = queue.remove();
+            if (grid[now.x][now.y] == 1)
+                return now.step;
+            for (int i = 0; i < 4; i++) {
+                int tx = dx[i]+now.x;
+                int ty = dy[i]+now.y;
+                if (tx >= 0 && tx < grid.length && ty >= 0 && ty < grid[0].length && !vis[tx][ty]){
+                    vis[tx][ty] = true;
+                    queue.add(new Coordinate(tx, ty, now.step+1));
+                }
+            }
+        }
+        return -1;
+    }
