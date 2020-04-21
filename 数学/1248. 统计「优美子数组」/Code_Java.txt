@@ -1,0 +1,32 @@
+public int numberOfSubarrays(int[] nums, int k) {
+        if (nums.length < k)
+            return 0;
+        int ll = -1, lr=-1, rl=nums.length, rr = nums.length;
+        int sum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] % 2 == 1){
+                if (sum == 0)
+                    lr = i;
+                if (sum == k-1)
+                    rl = i;
+                if (sum == k){
+                    rr = i;
+                    break;
+                }
+                ++sum;
+            }
+        }
+        int res = (lr-ll)*(rr-rl);
+        while (rr != nums.length){
+            rl = rr;
+            ++rr;
+            while (rr != nums.length && nums[rr] % 2 == 0)
+                ++rr;
+            ll = lr;
+            ++lr;
+            while (lr != nums.length && nums[lr] % 2 == 0)
+                ++lr;
+            res += (lr-ll)*(rr-rl);
+        }
+        return res;
+    }
