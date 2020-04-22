@@ -1,0 +1,19 @@
+public int maxProfit(int[] prices) {
+        if (prices.length == 0)
+            return 0;
+        int min = prices[0];
+        int res = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] < prices[i-1]){
+                if (prices[i-1] > min){
+                    res += prices[i-1]-min;
+                    min = prices[i];
+                }
+                if (min > prices[i])
+                    min = prices[i];
+            }
+        }
+        if (prices[prices.length-1] > min)
+            res += prices[prices.length-1]-min;
+        return res;
+    }
