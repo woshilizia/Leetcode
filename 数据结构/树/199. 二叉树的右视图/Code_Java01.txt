@@ -1,0 +1,14 @@
+public static List<Integer> rightSideView(TreeNode root) {
+        Map<Integer, Integer>hashMap = new HashMap<>();
+        treeSearch(root, 0, hashMap);
+        List<Integer>list = new ArrayList<>();
+        list.addAll(hashMap.values());
+        return list;
+    }
+    public static void treeSearch(TreeNode root, int depth, Map<Integer, Integer>hashMap){
+        if (root == null)
+            return;
+        hashMap.put(depth, root.val);
+        treeSearch(root.left, depth+1, hashMap);
+        treeSearch(root.right, depth+1, hashMap);
+    }
