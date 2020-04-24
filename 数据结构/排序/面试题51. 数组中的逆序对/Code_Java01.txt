@@ -1,0 +1,35 @@
+class Solution {
+    public static int res;
+    public int reversePairs(int[] nums) {
+        res = 0;
+        mergeSort(nums, 0, nums.length-1);
+        return res;
+    }
+    public void mergeSort(int[] nums, int start, int end){
+        if (start >= end)
+            return;
+        int mid = (start+end)/2;
+        mergeSort(nums, start, mid);
+        mergeSort(nums, mid+1, end);
+        merge(nums, start, mid, mid+1, end);
+    }
+    public void merge(int[] nums, int leftStart, int leftEnd, int rightStart, int rightEnd){
+        int[] tmp = new int[rightEnd-leftStart+1];
+        int i = leftStart, j = rightStart;
+        int index = 0;
+        while (i <= leftEnd && j <= rightEnd){
+            if (nums[i] <= nums[j])
+                tmp[index++] = nums[i++];
+            else{
+                res += (j-leftStart-index);
+                tmp[index++] = nums[j++];
+            }
+        }
+        while (i <= leftEnd)
+            tmp[index++] = nums[i++];
+        while (j <= rightEnd)
+            tmp[index++] = nums[j++];
+
+        System.arraycopy(tmp, 0, nums, leftStart, tmp.length);
+    }
+}
