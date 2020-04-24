@@ -1,0 +1,22 @@
+class Solution {
+    public boolean canPartition(int[] nums) {
+        int sum = 0;
+        for (int num : nums)
+            sum += num;
+        if (sum % 2 == 1)
+            return false;
+        sum /= 2;
+        boolean dp[] = new boolean[sum+1];
+        Arrays.fill(dp, false);
+        dp[0] = true;
+        for (int num : nums) {
+            if (dp[sum])
+                return true;
+            for (int j = sum; j >= 0; j--)//这里的遍历顺序注意一下，如果是0-sum，那么它的状态覆盖了
+                if (dp[j] && j + num <= sum) {
+                    dp[j + num] = true;
+                }
+        }
+        return dp[sum];
+    }
+}
