@@ -1,0 +1,39 @@
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        ListNode res = null, next = null;
+        int tmp = -1;
+        for (int i = 0; i < lists.length; i++) {
+            if (lists[i] != null){
+                if (tmp == -1)
+                    tmp = i;
+                else if (lists[tmp].val > lists[i].val)
+                    tmp = i;
+            }
+        }
+        if (tmp == -1)
+            return null;
+        res = lists[tmp];
+        next = lists[tmp];
+        lists[tmp] = lists[tmp].next;
+        
+        while (true){
+            tmp = -1;
+            for (int i = 0; i < lists.length; i++) {
+                if (lists[i] != null){
+                    if (tmp == -1)
+                        tmp = i;
+                    else if (lists[tmp].val > lists[i].val)
+                        tmp = i;
+                }
+            }
+            if (tmp == -1)
+                break;
+            else{
+                next.next = lists[tmp];
+                next = next.next;
+                lists[tmp] = lists[tmp].next;
+            }
+        }
+        return res;
+    }
+}
