@@ -1,0 +1,29 @@
+class Solution {
+    public int search(int[] nums, int target) {
+        if (nums.length == 0)
+            return -1;
+        int res = -1;
+        if (nums[0] >= nums[nums.length-1]){
+            int mid = searchNum(nums);
+            if (target>=nums[0])
+                res = Arrays.binarySearch(nums, 0, mid+1, target);
+            else
+                res = Arrays.binarySearch(nums, mid+1,nums.length,target);
+        }
+        else
+            res = Arrays.binarySearch(nums, 0, nums.length, target);
+        return res >= 0 ? res : -1;
+    }
+    private int searchNum(int[] nums){
+        int start = 0;
+        int end = nums.length;
+        while (end-start>1){
+            int mid = (start+end)/2;
+            if (nums[mid] > nums[start])
+                start = mid;
+            else
+                end = mid;
+        }
+        return start;
+    }
+}
