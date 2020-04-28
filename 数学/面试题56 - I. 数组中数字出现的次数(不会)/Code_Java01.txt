@@ -1,0 +1,16 @@
+class Solution {
+    public int[] singleNumbers(int[] nums) {
+        int first = 0;
+        for (int num : nums)
+            first ^= num;
+        int index = 1;
+        while ((index&first)==0)
+            index <<= 1;
+        int second = first;
+        for (int num:nums){
+            if ((num&index)>0) first ^= num;
+            else second ^= num;
+        }
+        return new int[]{first, second};
+    }
+}
