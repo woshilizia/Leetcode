@@ -1,0 +1,12 @@
+class Solution {
+    public int mincostTickets(int[] days, int[] costs) {
+        int[] dp = new int[days[days.length-1]+1];
+        for (int i = 0; i < days.length; i++) {
+            int now = days[i];
+            if (i > 0 && days[i]-days[i-1] > 1)
+                Arrays.fill(dp,days[i-1],days[i],dp[days[i-1]]);
+            dp[now] = Math.min(Math.min(dp[now-1]+costs[0], dp[Math.max(now-7, 0)]+costs[1]), dp[Math.max(now-30,0)]+costs[2]);
+        }
+        return dp[dp.length-1];
+    }
+}
