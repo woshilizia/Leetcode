@@ -1,0 +1,21 @@
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root.val == p.val || root.val == q.val)
+            return root;
+        if (dfs(root.left,p,q,0) == 1)
+            return root;
+        else if (dfs(root.left,p,q,0) == 2)
+            return lowestCommonAncestor(root.left,p,q);
+        else 
+            return lowestCommonAncestor(root.right,p,q);
+    }
+    private int dfs(TreeNode root, TreeNode p, TreeNode q, int times){
+        if (times == 2)
+            return 2;
+        if (root == null)
+            return times;
+        if (root.val == p.val || root.val == q.val)
+            return Math.max(dfs(root.left,p,q,times),dfs(root.right,p,q,times))+1;
+        return dfs(root.left,p,q,times)+dfs(root.right,p,q,times);
+    }
+}
