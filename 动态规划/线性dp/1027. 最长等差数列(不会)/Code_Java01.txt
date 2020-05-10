@@ -1,0 +1,15 @@
+class Solution {
+    public int longestArithSeqLength(int[] A) {
+        final int LENGTH = 10005;
+        int[][] dp = new int[A.length][20010];
+        int res = 1;
+        for (int i = 1; i < A.length; i++) {
+            for (int j = 0; j < i; j++) {
+                int num = A[i]-A[j]>0 ? A[i]-A[j] : A[i]-A[j]+LENGTH;
+                dp[i][num] = dp[j][num]+1;
+                res = Math.max(res, dp[i][num]);
+            }
+        }
+        return res+1;
+    }
+}
