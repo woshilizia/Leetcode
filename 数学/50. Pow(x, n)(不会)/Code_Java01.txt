@@ -1,0 +1,16 @@
+class Solution {
+    public double myPow(double x, long n) {
+        return n >= 0 ? powMul(x, n) : 1/powMul(x, -n);
+    }
+    private double powMul(double x, long n){
+        double ans = 1;
+        double tmp = x;
+        while (n > 0){
+            if (n % 2 == 1)
+                ans *= tmp;
+            tmp *= tmp;
+            n /= 2;
+        }
+        return ans;
+    }
+}
