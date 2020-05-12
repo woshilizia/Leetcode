@@ -1,0 +1,30 @@
+class Solution {
+    public int findPaths(int m, int n, int N, int i, int j) {
+        if (i<=-1||i>=m||j<=-1||j>=n)
+            return 0;
+        long[][][] dp = new long[m+2][n+2][2];
+        dp[i+1][j+1][0] = 1;
+        long res = 0;
+        int mod = (int) 1e9+7;
+        for (int k = 0; k < N; k++) {
+            for (int l = 1; l <= m; l++) {
+                for (int o = 1; o <= n; o++) {
+                    if (l == 1) res = (res+dp[l][o][0])%mod;
+                    if (l == m) res = (res+dp[l][o][0])%mod;
+                    if (o == 1) res = (res+dp[l][o][0])%mod;
+                    if (o == n) res = (res+dp[l][o][0])%mod;
+                    dp[l][o][1] = (dp[l-1][o][0]+dp[l+1][o][0]+dp[l][o-1][0]+dp[l][o+1][0])%mod;
+                }
+            }
+            for (int l = 1; l <= m+1; l++) {
+                for (int o = 1; o <= n+1; o++) {
+                    if (l == 0 || l == m+1 || o == 0 || o ==n+1)
+                        dp[l][o][0] = 0;
+                    else
+                        dp[l][o][0] = dp[l][o][1];
+                }
+            }
+        }
+        return (int)res;
+    }
+}

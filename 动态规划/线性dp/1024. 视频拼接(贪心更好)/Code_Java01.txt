@@ -1,0 +1,31 @@
+class Solution {
+    public int videoStitching(int[][] clips, int T) {
+        int[]dp = new int[105];
+        Arrays.sort(clips, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0]==o2[0]) return o2[1]-o1[1];
+                return o1[0]-o2[0];
+            }
+        });
+        if (clips[0][0] != 0)
+            return -1;
+        Arrays.fill(dp,Integer.MAX_VALUE-1);
+        Arrays.fill(dp,0,clips[0][1]+1,1);
+        for (int i = 1; i < clips.length; i++) {
+            if (dp[clips[i][0]] == 0)
+                return -1;
+            for (int j = clips[i][0]; j < clips[i][1]; j++) {
+                dp[clips[i][1]] = Math.min(dp[clips[i][1]], dp[j]+1);
+            }
+            for (int j = clips[i][0]; j < clips[i][1]; j++) {
+                dp[j] = Math.min(dp[j], dp[clips[i][1]]);
+            }
+        }
+        int res = Integer.MAX_VALUE;
+        for (int i = T; i < dp.length; i++) {
+            res = Math.min(dp[i],res);
+        }
+        return res == Integer.MAX_VALUE-1 ? -1 : res;
+    }
+}
