@@ -1,0 +1,15 @@
+class Solution {
+    public int lastStoneWeightII(int[] stones) {
+        int sum = 0;
+        for (int stone : stones) {
+            sum += stone;
+        }
+        int[] dp = new int[sum/2+1];
+        for (int stone : stones) {
+            for (int j = sum / 2; j >= stone; --j) {
+                dp[j] = Math.max(dp[j], dp[j - stone] + stone);
+            }
+        }
+        return sum-dp[dp.length-1]*2;
+    }
+}
