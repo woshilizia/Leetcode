@@ -1,0 +1,44 @@
+class Solution {
+    public int longestStrChain(String[] words) {
+        int[] dp = new int[words.length];
+        Arrays.sort(words, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return Integer.compare(o1.length(), o2.length());
+            }
+        });
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < words.length; i++) {
+            if (!map.containsKey(words[i].length()))
+                map.put(words[i].length(), i);
+        }
+        int res = 0;
+        for (int i = 0; i < words.length; i++) {
+            if (map.containsKey(words[i].length()) && map.containsKey(words[i].length() - 1)) {
+                int nowLength = map.get(words[i].length());
+                int preLength = map.get(words[i].length() - 1);
+                for (int j = preLength; j < nowLength; j++) {
+                    if (words[i].length() == words[j].length()+1 && isBefore(words[i], words[j]))
+                        dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+            dp[i] = Math.max(dp[i], 1);
+            res = Math.max(res, dp[i]);
+        }
+        return res;
+    }
+
+    private boolean isBefore(String longString, String shortString) {
+        boolean flag = false;
+        for (int i = 0, j = 0; i < shortString.length(); ++i, ++j) {
+            if (longString.charAt(j) != shortString.charAt(i)) {
+                if (!flag) {
+                    flag = true;
+                    --i;
+                } else
+                    return false;
+            }
+        }
+        return true;
+    }
+}
