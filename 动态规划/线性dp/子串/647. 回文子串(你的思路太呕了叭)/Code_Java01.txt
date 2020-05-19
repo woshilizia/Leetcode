@@ -1,0 +1,24 @@
+class Solution {
+    public int countSubstrings(String s) {
+        int[] sum = new int[s.length()];
+        boolean[][] dp = new boolean[s.length()][s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            dp[i][i] = true;
+            sum[i] = 1;
+        }
+        for (int i = 1; i < s.length(); i++) {
+            for (int j = 1; j <= i; j++) {
+                if (dp[j][i - 1] && s.charAt(j - 1) == s.charAt(i)){
+                    dp[j-1][i] = true;
+                    sum[i]++;
+                }
+            }
+            if (s.charAt(i-1)==s.charAt(i)){
+                dp[i-1][i] = true;
+                sum[i]++;
+            }
+            sum[i] += sum[i - 1];
+        }
+        return sum[s.length() - 1];
+    }
+}

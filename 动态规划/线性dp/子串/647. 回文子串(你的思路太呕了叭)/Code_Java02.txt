@@ -1,0 +1,19 @@
+public int countSubstrings(String s) {
+        int[] sum = new int[s.length()];
+        boolean[] dp = new boolean[s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            dp[i] = true;
+            sum[i] = 1;
+        }
+        for (int i = 1; i < s.length(); i++) {
+            for (int j = 1; j <= i; j++) {
+                if (dp[j] && s.charAt(j - 1) == s.charAt(i)){
+                    dp[j-1] = true;
+                    sum[i]++;
+                }else
+                    dp[j-1]  = false;
+            }
+            sum[i] += sum[i - 1];
+        }
+        return sum[s.length() - 1];
+    }
