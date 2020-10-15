@@ -1,0 +1,21 @@
+class Solution {
+    public Node connect(Node root) {
+        List<Node> list = new LinkedList<>();
+        if (root != null)
+            list.add(root);
+        while (!list.isEmpty()){
+            for (int i=0; i < list.size()-1; ++i){
+                list.get(i).next = list.get(i+1);
+            }
+            List<Node>tmp = new LinkedList<>();
+            for (int i=0; i < list.size(); ++i){
+                tmp.add(list.get(i).left);
+                tmp.add(list.get(i).right);
+            }
+            list = tmp;
+            if (list.get(0) == null)
+                break;
+        }
+        return root;
+    }
+}
