@@ -1,0 +1,43 @@
+class Solution {
+    public int[] findRedundantConnection(int[][] edges) {
+        int[] res = new int[2];
+        for (int i = 0; i < edges.length; i++) {
+            if (canBeRemoved(edges, i))
+                res = edges[i];
+        }
+        return res;
+    }
+    int find(int x, int[] nodes){
+        if (x == nodes[x])
+            return x;
+        else {
+            nodes[x] = find(nodes[x], nodes);
+            return find(nodes[x], nodes);
+        }
+    }
+    boolean canBeRemoved(int[][] edges, int k){
+        int[] nodes = new int[edges.length+1];
+        // 初始化
+        for (int j = 1; j <= edges.length; j++) {
+            nodes[j] = j;
+        }
+        for (int i = 0; i < edges.length; i++) {
+            if (i != k){
+                int u = find(edges[i][0], nodes);
+                int v = find(edges[i][1], nodes);
+                if (u != v)
+                    nodes[u] = v;
+            }
+        }
+        boolean flag = false;
+        for (int i = 1; i <= edges.length; i++) {
+            if (find(i, nodes) == i){
+                if (!flag)
+                    flag = true;
+                else
+                    return false;
+            }
+        }
+        return true;
+    }
+}
