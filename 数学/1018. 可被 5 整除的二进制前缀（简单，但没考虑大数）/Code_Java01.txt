@@ -1,0 +1,16 @@
+class Solution {
+    public List<Boolean> prefixesDivBy5(int[] A) {
+        int tmp = 0;
+        List<Boolean>list = new LinkedList<>();
+        for (int i = 0; i < A.length; ++i){
+            tmp += A[i];
+            if (tmp % 5 == 0)
+                list.add(true);
+            else
+                list.add(false);
+            tmp *= 2;
+            tmp %= 5;
+        }
+        return list;
+    }
+}

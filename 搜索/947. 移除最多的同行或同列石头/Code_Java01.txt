@@ -1,0 +1,60 @@
+class Solution {
+    Map<Integer, Integer> lineMap;
+    Map<Integer, Integer> rowMap;
+    List<List<Integer>> lineList;
+    List<List<Integer>> rowList;
+    Set<Integer> vis;
+    public int removeStones(int[][] stones) {
+        // 我感觉可以用并查集做诶
+        // 但我细细一想，还是dfs吧
+        // 有机会看下并查集，我感觉是二维并查集的样子诶
+        lineMap = new HashMap<>();
+        rowMap = new HashMap<>();
+        lineList = new LinkedList<>();
+        rowList = new LinkedList<>();
+        vis = new HashSet<>();
+        for (int i = 0; i < stones.length; i++) {
+            int x = stones[i][0];
+            int y = stones[i][1];
+            AddList(lineMap, lineList, x, y);
+            AddList(rowMap, rowList, y, x);
+        }
+        int res = 0;
+        for (int i = 0; i < stones.length; i++) {
+            if (!vis.contains(stones[i][0]*20000+stones[i][1])){
+                res++;
+                dfs(stones[i][0], stones[i][1]);
+            }
+        }
+        return stones.length-res;
+    }
+    void AddList(Map<Integer, Integer> map, List<List<Integer>> list, int x, int y){
+        if (map.get(x) != null){
+            int num = map.get(x);
+            List<Integer> tmp = list.get(num);
+            tmp.add(y);
+        }else {
+            map.put(x, list.size());
+            List<Integer> tmp = new LinkedList<>();
+            tmp.add(y);
+            list.add(tmp);
+        }
+    }
+    void dfs(int x, int y){
+        if (vis.contains(x*20000+y))
+            return;
+        vis.add(x*20000+y);
+        int numX = lineMap.get(x);
+        int numY = rowMap.get(y);
+        for (int num : lineList.get(numX)) {
+            if (num != y){
+                dfs(x, num);
+            }
+        }
+        for (int num : rowList.get(numY)){
+            if  (num != x){
+                dfs(num, y);
+            }
+        }
+    }
+}
