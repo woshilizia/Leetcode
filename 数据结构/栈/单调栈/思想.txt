@@ -1,0 +1,27 @@
+单调栈的目的
+给你位置i
+想要求出位置i的左侧和右侧比i大（或者小）的位置
+
+通过单调栈，可以实现o（n）
+
+举个例子，如果我想求出位置i，左右两侧第一个比i大的
+那么，首先单调栈从大到小，
+那在栈里的，i的左侧肯定是比i大的
+然后i的右侧，也比i大了，所以要替换了
+这时候就可以知道i的左右两侧比它大的位置啦！！！
+
+
+public int trap(int[] height) {
+        Deque<Integer>stack = new ArrayDeque<>();
+        int res = 0;
+        for (int i = 0; i < height.length; ++i){
+            while (!stack.isEmpty() && height[i] >= height[stack.peek()]){
+                int right = stack.pop();
+	// stack.peek(), right, i  也就是在位置right两侧，都比它大
+                if (!stack.isEmpty())
+                    res += (Math.min(height[stack.peek()], height[i])-height[right]) * (i-stack.peek()-1);
+            }
+            stack.push(i);
+        }
+        return res;
+ }
